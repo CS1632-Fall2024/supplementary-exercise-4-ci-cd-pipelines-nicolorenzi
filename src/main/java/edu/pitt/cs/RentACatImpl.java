@@ -1,5 +1,7 @@
 package edu.pitt.cs;
 
+import static org.mockito.ArgumentMatchers.nullable;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,7 +20,19 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO: Fill in
+		if (getCat(id) != null) 
+		{
+			Cat cat = getCat(id);
+			if (cats.contains(cat) && cat.getRented()) 
+			{
+				cat.returnCat();
+				System.out.println("Welcome back, " + cat.getName() + "!");
+				return true;
+			}
+
+			System.out.println(cat.getName() + " is already here!");
+		}
+
 		return false;
 	}
 
@@ -33,7 +47,19 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO: Fill in
+		if (getCat(id) != null)
+		{
+			Cat cat = getCat(id);
+			if (cats.contains(cat) && !cat.getRented()) 
+			{
+				cat.rentCat();
+				System.out.println(cat.getName() + " has been rented.");
+				return true;
+			}
+
+			System.out.println("Sorry, " + cat.getName() + " is not here!");
+		}
+
 		return false;
 	}
 
@@ -47,7 +73,13 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		// TODO: Fill in
+		if (getCat(id) != null)
+		{
+			Cat cat = getCat(id);
+			cat.renameCat(name);
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -62,8 +94,12 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO: Fill in
-		return "WRITE CODE FOR THIS";
+		String available = "";
+		for (int i = 0; i < cats.size(); i++)
+		{
+			available += ((cats.get(i)).toString() + "\n");
+		}
+		return available;
 	}
 
 	/**
